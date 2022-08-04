@@ -3,11 +3,10 @@ import TextField from "@mui/material/TextField";
 import { Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
-    marginTop: "2em",
     flexDirection: "column",
     alignItems: "center",
   },
@@ -16,6 +15,9 @@ const useStyles = makeStyles({
     textAlign: "center",
     marginTop: "1em",
     fontWeight: "bold",
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "100%",
+    },
   },
   error: {
     maxWidth: "50%",
@@ -24,7 +26,7 @@ const useStyles = makeStyles({
     fontWeight: "bold",
     color: "red",
   },
-});
+}));
 
 function ProfitLossComponent() {
   const classes = useStyles();
@@ -37,20 +39,9 @@ function ProfitLossComponent() {
   const [profitLoss, setProfitLoss] = React.useState(0);
   const [profitLossPercentage, setProfitLossPercentage] = React.useState(0);
 
-  const [error, setError] = React.useState();
-
   const onClick = () => {
-    validations();
     setIsButtonClicked(true);
     findProfitLoss();
-  };
-
-  const validations = () => {
-    if (initialPrice === 0 || currentPrice === 0 || qty === 0) {
-      setError("Please fill all the fields");
-    } else {
-      setError();
-    }
   };
 
   const findProfitLoss = () => {
@@ -67,10 +58,10 @@ function ProfitLossComponent() {
       <Typography
         variant="h6"
         className={classes.text}
-        style={{ marginBottom: "1em" }}
+        style={{ marginBottom: "1em", fontWeight: "bold" }}
       >
         Enter Your Stock Purchase Values in below fields to get the profit/loss
-        report of your stock purchase.
+        report
       </Typography>
 
       <TextField
@@ -106,19 +97,15 @@ function ProfitLossComponent() {
 
       {isButtonCLicked && (
         <>
-          {error ? (
-            <span className={classes.error}>{error}</span>
-          ) : (
-            <span className={classes.text}>
-              {profitLoss === 0
-                ? "You are not making any profit or loss"
-                : `${"You are in "}${
-                    isProfit ? "profit" : "loss"
-                  } of ₹${profitLoss} (${profitLossPercentage}%) ${
-                    isProfit ? "🤩🤩🤩" : "😐😐😐"
-                  }`}
-            </span>
-          )}
+          <span className={classes.text}>
+            {profitLoss === 0
+              ? "You are not making any profit or loss"
+              : `${"You are in "}${
+                  isProfit ? "profit" : "loss"
+                } of ₹${profitLoss} (${profitLossPercentage}%) ${
+                  isProfit ? "🤩🤩🤩" : "😐😐😐"
+                }`}
+          </span>
         </>
       )}
     </div>
