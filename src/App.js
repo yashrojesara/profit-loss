@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import ProfitLossComponent from "./Component/ProfitLossComponent";
+import Header from "./Component/Header";
+import Footer from "./Component/Footer";
+import { makeStyles, ThemeProvider } from "@mui/styles";
+import { createTheme } from "@mui/material";
+
+const useStyles = makeStyles({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100%",
+    width: "100%",
+    position: "absolute",
+  },
+});
 
 function App() {
+  const classes = useStyles();
+
+  const theme = createTheme({});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <Header />
+        <ProfitLossComponent />
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 
