@@ -38,9 +38,16 @@ function ProfitLossComponent() {
   const [qty, setQty] = React.useState(0);
   const [profitLoss, setProfitLoss] = React.useState(0);
   const [profitLossPercentage, setProfitLossPercentage] = React.useState(0);
+  const [error, setError] = React.useState("");
 
   const onClick = () => {
     setIsButtonClicked(true);
+    if (currentPrice <= 0 || initialPrice <= 0 || qty <= 0) {
+      setError("Value should be greater then 0");
+      return;
+    } else {
+      setError("");
+    }
     findProfitLoss();
   };
 
@@ -71,6 +78,9 @@ function ProfitLossComponent() {
         type="number"
         variant="outlined"
         label="Entry Price"
+        InputProps={{
+          inputProps: { min: 0 },
+        }}
       />
 
       <TextField
@@ -80,6 +90,9 @@ function ProfitLossComponent() {
         type="number"
         variant="outlined"
         label="Current Price"
+        InputProps={{
+          inputProps: { min: 0 },
+        }}
       />
 
       <TextField
@@ -89,6 +102,9 @@ function ProfitLossComponent() {
         type="number"
         variant="outlined"
         label="Qty"
+        InputProps={{
+          inputProps: { min: 0 },
+        }}
       />
 
       <Button onClick={onClick} variant="contained" color="primary">
@@ -98,7 +114,9 @@ function ProfitLossComponent() {
       {isButtonCLicked && (
         <>
           <span className={classes.text}>
-            {profitLoss === 0
+            {error
+              ? error
+              : profitLoss === 0
               ? "You are not making any profit or loss"
               : `${"You are in "}${
                   isProfit ? "profit" : "loss"
